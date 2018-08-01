@@ -3,3 +3,12 @@ C:\Repositories\Rss\Rss.Cli\obj\Debug\netcoreapp2.1\Rss.Cli.csprojAssemblyRefere
 C:\Repositories\Rss\Rss.Cli\obj\Debug\netcoreapp2.1\Rss.Cli.csproj.CoreCompileInputs.cache
 C:\Repositories\Rss\Rss.Cli\obj\Debug\netcoreapp2.1\Rss.Cli.AssemblyInfoInputs.cache
 C:\Repositories\Rss\Rss.Cli\obj\Debug\netcoreapp2.1\Rss.Cli.AssemblyInfo.cs
+C:\Repositories\Rss\Rss.Cli\bin\Debug\netcoreapp2.1\Rss.Cli.deps.json
+C:\Repositories\Rss\Rss.Cli\bin\Debug\netcoreapp2.1\Rss.Cli.runtimeconfig.json
+C:\Repositories\Rss\Rss.Cli\bin\Debug\netcoreapp2.1\Rss.Cli.runtimeconfig.dev.json
+C:\Repositories\Rss\Rss.Cli\bin\Debug\netcoreapp2.1\Rss.Cli.dll
+C:\Repositories\Rss\Rss.Cli\bin\Debug\netcoreapp2.1\Rss.Cli.pdb
+C:\Repositories\Rss\Rss.Cli\bin\Debug\netcoreapp2.1\Rss.Core.pdb
+C:\Repositories\Rss\Rss.Cli\obj\Debug\netcoreapp2.1\Rss.Cli.csproj.CopyComplete
+C:\Repositories\Rss\Rss.Cli\obj\Debug\netcoreapp2.1\Rss.Cli.dll
+C:\Repositories\Rss\Rss.Cli\obj\Debug\netcoreapp2.1\Rss.Cli.pdb

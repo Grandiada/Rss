@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rss.Core;
 using Rss.Core.Models.Context;
+using Rss.Web.Controllers;
 
 namespace Rss.Web
 {
@@ -68,8 +69,14 @@ namespace Rss.Web
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    name: null,
+                    template: "",
+                    defaults: new
+                    {
+                        controller = "Home",
+                        action = nameof(HomeController.IndexGet)
+                    });
+
             });
         }
     }

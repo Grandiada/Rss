@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Rss.Cli": {
+      "commandName": "Project",
+      "commandLineArgs": "get-records"
+    }
+  }
+}

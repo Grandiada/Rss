@@ -1,31 +1,45 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Rss.Core;
+using Rss.Web.Models;
 
 namespace Rss.Web.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly RssRecordService _recordService;
+
+        public HomeController(RssRecordService recordService)
         {
-            return View();
+            _recordService = recordService;
         }
 
-        public IActionResult About()
+        [HttpGet]
+        public async Task<IActionResult> IndexGet(CancellationToken cancellationToken)
         {
-            ViewData["Message"] = "Your application description page.";
+            var records = await _recordService.GetAsync(cancellationToken);
 
-            return View();
-        }
+            if (records == null)
+                throw new InvalidOperationException();
 
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
+            var viewModel = new IndexPostViewModel
+            {
+                Pages = (int)Math.Ceiling(records.Count * 0.1)
+            };
 
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
+            foreach (var record in records)
+            {
+                viewModel.News.Add(new News()
+                {
+                    Tittle = record.Title,
+                    Description = record.Description,
+                    Source = record.NameSource,
+                    PublishDate = record.PublishDate
+                });
+            }
+            return View("IndexPost", viewModel);
         }
     }
 }

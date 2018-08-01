@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rss.Web", "Rss\Rss.Web.csproj", "{8AE5E649-AF10-409A-AA04-2B1B722C3031}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rss.Web", "Rss.Web\Rss.Web.csproj", "{8AE5E649-AF10-409A-AA04-2B1B722C3031}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rss.Cli", "Rss.Cli\Rss.Cli.csproj", "{C2459758-1AC7-4A4E-B79A-7EA42E16708E}"
 EndProject

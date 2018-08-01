@@ -1,0 +1,47 @@
+﻿@using Rss.Web.Models
+@model IndexPostViewModel
+
+@{
+    var sources = Model.News.Select(i => i.Source).Distinct().ToList();
+    sources.Add("Все");
+}
+<form>
+    <label for="source">Источник ленты</label>
+    <select size="1" name="source" id="source">
+        @foreach (var source in sources)
+        {
+            @:<option @(source.Equals("Все") ? "selected" : "") value="@source">@source</option>
+        }
+    </select>
+    <input type="radio" id="sortChoice1"
+           name="sort" value="date" checked="checked">
+    <label for="sortChoice1">Сортировать по дате</label>
+
+    <input type="radio" id="sortChoice2"
+           name="sort" value="source">
+    <label for="sortChoice2">Сортировать по источнику</label>
+
+    <button type="submit">Посмотреть</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <td>Источник</td>
+            <td>Название новости</td>
+            <td>Описание новости</td>
+            <td>Дата публикации</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var news in Model.News)
+        {
+            <tr>
+                <td>@news.Source</td>
+                <td>@news.Tittle</td>
+                <td>@Html.Raw(news.Description)</td>
+                <td>@news.PublishDate.ToString("g")</td>
+            </tr>
+        }
+    </tbody>
+</table>

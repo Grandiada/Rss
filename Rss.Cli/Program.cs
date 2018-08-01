@@ -19,6 +19,10 @@ namespace Rss.Cli
                     CreateDatabaseCommand.RunAsync(CancellationToken.None).Wait();
                     break;
 
+                case "get-records":
+                    GetRssRecordsCommand.RunAsync(CancellationToken.None).Wait();
+                    break;
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(args));
             }

@@ -1,9 +1,9 @@
 C:\Repositories\Rss\Rss.Core\bin\Debug\netcoreapp2.1\Rss.Core.deps.json
 C:\Repositories\Rss\Rss.Core\bin\Debug\netcoreapp2.1\Rss.Core.dll
-C:\Repositories\Rss\Rss.Core\bin\Debug\netcoreapp2.1\Microsoft.EntityFrameworkCore.dll
-C:\Repositories\Rss\Rss.Core\bin\Debug\netcoreapp2.1\Microsoft.EntityFrameworkCore.xml
+C:\Repositories\Rss\Rss.Core\bin\Debug\netcoreapp2.1\Rss.Core.pdb
 C:\Repositories\Rss\Rss.Core\obj\Debug\netcoreapp2.1\Rss.Core.csprojAssemblyReference.cache
 C:\Repositories\Rss\Rss.Core\obj\Debug\netcoreapp2.1\Rss.Core.csproj.CoreCompileInputs.cache
 C:\Repositories\Rss\Rss.Core\obj\Debug\netcoreapp2.1\Rss.Core.AssemblyInfoInputs.cache
 C:\Repositories\Rss\Rss.Core\obj\Debug\netcoreapp2.1\Rss.Core.AssemblyInfo.cs
-C:\Repositories\Rss\Rss.Core\obj\Debug\netcoreapp2.1\Rss.Core.csproj.CopyComplete
+C:\Repositories\Rss\Rss.Core\obj\Debug\netcoreapp2.1\Rss.Core.dll
+C:\Repositories\Rss\Rss.Core\obj\Debug\netcoreapp2.1\Rss.Core.pdb
