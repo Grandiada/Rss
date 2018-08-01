@@ -1,30 +1,29 @@
 ﻿@using Rss.Web.Models
 @model IndexPostViewModel
 
-@{
-    var sources = Model.News.Select(i => i.Source).Distinct().ToList();
-    sources.Add("Все");
-}
-<form>
-    <label for="source">Источник ленты</label>
-    <select size="1" name="source" id="source">
-        @foreach (var source in sources)
-        {
-            @:<option @(source.Equals("Все") ? "selected" : "") value="@source">@source</option>
-        }
-    </select>
-    <input type="radio" id="sortChoice1"
-           name="sort" value="date" checked="checked">
-    <label for="sortChoice1">Сортировать по дате</label>
+<form method="post" asp-action="IndexGet">
+    <div class="form-group">
+        <label for="sourceName">Источник ленты</label>
+        <select size="1" name="sourceName" id="sourceName">
+            @foreach (var source in Model.SourceViewModel.Sources)
+            {
+                @:<option @(source.IsSelected ? "selected" : "") value="@source.Name">@source.Name</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <input type="radio" id="sortChoice1"
+               name="sortOrder" value="@SortState.DateOrder" @(Model.SortViewModel.SortType == SortState.DateOrder ? "checked=\"checked\"" : "")>
+        <label for="sortChoice1">Сортировать по дате</label>
 
-    <input type="radio" id="sortChoice2"
-           name="sort" value="source">
-    <label for="sortChoice2">Сортировать по источнику</label>
-
-    <button type="submit">Посмотреть</button>
+        <input type="radio" id="sortChoice2"
+               name="sortOrder" value="@SortState.SourceOrder" @(Model.SortViewModel.SortType==SortState.SourceOrder ? "checked=\"checked\"" : "")>
+        <label for="sortChoice2">Сортировать по источнику</label>
+    </div>
+    <button class="btn" type="submit">Посмотреть</button>
 </form>
 
-<table>
+<table class="table table-bordered">
     <thead>
         <tr>
             <td>Источник</td>
@@ -45,3 +44,15 @@
         }
     </tbody>
 </table>
+
+@for (var i = 0; i < Model.PageViewModel.TotalPages; i++)
+{
+    <a asp-action="IndexGet"
+       asp-route-page="@(i + 1)"
+       asp-route-sourceName="@(Model.SourceViewModel.GetSelected.Name)"
+       asp-route-sortorder="@(Model.SortViewModel.SortType)"
+       class="btn @(Model.PageViewModel.PageNumber==i+1?"btn-success":"btn-default")">
+        @(i + 1)
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}

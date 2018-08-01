@@ -57,7 +57,7 @@ module.exports = {
     extensions: ['.ts', '.tsx', ".js", ".json"]
   },
   output: {
-    path: path.resolve(__dirname, '../../Rss.Web/wwwroot/dist'),
+    path: path.resolve(__dirname, '../Rss.Web/wwwroot/dist'),
     filename: '[name].bundle.js'
   },
   plugins: [
