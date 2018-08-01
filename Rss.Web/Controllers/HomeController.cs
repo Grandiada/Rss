@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Rss.Core;
 using Rss.Web.Models;
+using Rss.Web.Models.Ajax;
 
 namespace Rss.Web.Controllers
 {
@@ -19,7 +20,7 @@ namespace Rss.Web.Controllers
 
         private readonly int _pageSize = 10;
 
-        public async Task<IActionResult> IndexGet(string sourceName, CancellationToken cancellationToken, int page = 1, SortState sortOrder = SortState.DateOrder)
+        public async Task<IActionResult> Index(string sourceName, CancellationToken cancellationToken, int page = 1, SortState sortOrder = SortState.DateOrder)
         {
             var records = await _recordService.GetAsync(cancellationToken);
             var sourceViewModel = new SourceViewModel();
@@ -70,6 +71,70 @@ namespace Rss.Web.Controllers
             };
 
             return View("IndexPost", viewModel);
+        }
+
+        public async Task<IActionResult> IndexAjax(CancellationToken cancellationToken)
+        {
+            var records = await _recordService.GetAsync(cancellationToken);
+            var sourceViewModel = new SourceViewModel();
+            var index = 1;
+
+            foreach (var source in records.Select(i => i.NameSource).GroupBy(i => i))
+            {
+                sourceViewModel.Sources.Add(new Source
+                {
+                    Id = index,
+                    Name = source.Key
+                });
+
+                index++;
+            }
+
+            var viewModel = new IndexAjaxViewModel
+            {
+                SourceViewModel = sourceViewModel,
+                TotalPages = (int)Math.Ceiling(records.Count / (double)_pageSize)
+            };
+
+            return View("IndexAjax", viewModel);
+        }
+
+        public async Task<IActionResult> LoadData(LoadDataAjaxRequest request,
+            CancellationToken cancellationToken)
+        {
+            var records = await _recordService.GetAsync(cancellationToken);
+
+            if (!string.IsNullOrEmpty(request.SourceName) && !request.SourceName.Equals("Все"))
+            {
+                records = records.Where(i => i.NameSource == request.SourceName).ToList();
+            }
+
+            switch (request.SortOrder)
+            {
+                case SortState.SourceOrder:
+                    records = records.OrderByDescending(i => i.NameSource).ToList();
+                    break;
+                default:
+                    records = records.OrderByDescending(i => i.PublishDate).ToList();
+                    break;
+            }
+
+            var news = records.Skip((request.Page - 1) * _pageSize).Take(_pageSize).ToList();
+
+            var respone = new LoadDataAjaxResponse
+            {
+                News = news.Select(i => new NewsAjax()
+                {
+                    Title = i.Title, 
+                    Description = i.Description,
+                    Date = i.PublishDate.ToString("g"),
+                    Source = i.NameSource
+                }).ToList(),
+
+                TotalPages = (int)Math.Ceiling(news.Count / (double)_pageSize)
+            };
+
+            return Json(respone);
         }
     }
 }

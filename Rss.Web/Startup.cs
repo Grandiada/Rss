@@ -74,9 +74,26 @@ namespace Rss.Web
                     defaults: new
                     {
                         controller = "Home",
-                        action = nameof(HomeController.IndexGet)
+                        action = nameof(HomeController.Index)
                     });
 
+                routes.MapRoute(
+                    name: null,
+                    template: "index-ajax/",
+                    defaults: new
+                    {
+                        controller = "Home",
+                        action = nameof(HomeController.IndexAjax)
+                    });
+
+                routes.MapRoute(
+                    name: null,
+                    template: "get-data/",
+                    defaults: new
+                    {
+                        controller = "Home",
+                        action = nameof(HomeController.LoadData)
+                    });
             });
         }
     }

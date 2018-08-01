@@ -1,48 +1,51 @@
 import * as ko from "knockout"
 
 export interface StartupData {
-    clients: Client[];
-    products: Product[];
+    totalPages: number;
 }
 
-export interface Client {
-    id: number;
-    name: string;
+export interface News {
+    title: string;
+    description: string;
+    source: string;
+    date: string;
 }
 
-export interface Product {
-    name: string;
-    price: number;
-}
 
-export class ClientToAdd {
-    public name = ko.observable<string>();
-}
+export class Page {
 
-export class ProductToAdd {
-    public name = ko.observable<string>();
-    public price = ko.observable<number>();
-}
+    pageNumber: number;
 
-export class ClientViewModel {
-    readonly id: number;
-    readonly name: string;
-
-    constructor(client: Client) {
-        this.id = client.id;
-        this.name = client.name;
+    constructor(page: number) {
+        this.pageNumber = page;
     }
-    isSelected = ko.observable(false);
 }
 
-export class ProductViewModel {
-    readonly name: string;
-    readonly price: number;
+export class PageViewModel {
+    selectedPageNumber = ko.observable<number>(1);
+    pages: KnockoutObservableArray<Page>;
 
-    constructor(product: Product) {
-        this.name = product.name;
-        this.price = product.price;
+    constructor(totalPages: number) {
+        this.pages = ko.observableArray<Page>();
+
+        for (var i = 0; i < totalPages; i++) {
+            this.pages.push(new Page(i + 1));
+        }
     }
-    isSelected = ko.observable(false);
+
+
+    select = (pageSelected: Page) => {
+        this.selectedPageNumber(pageSelected.pageNumber);
+    }
 }
 
+export interface LoadDataAjaxRequest {
+    sourceName: string;
+    page: number;
+    sortOrder: string;
+}
+
+export interface LoadDataAjaxRespone {
+    totalPages: number;
+    news: News[];
+}

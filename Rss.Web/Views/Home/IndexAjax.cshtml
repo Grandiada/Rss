@@ -1,7 +1,62 @@
-﻿
-@{
-    ViewData["Title"] = "IndexAjax";
+﻿@using Newtonsoft.Json
+@using Rss.Web.Models
+@model IndexAjaxViewModel
+
+<div class="form-group">
+    <label for="sourceName">Источник ленты</label>
+    <select size="1" name="sourceName" id="sourceName" data-bind="value: _sourceName">
+        @foreach (var source in Model.SourceViewModel.Sources)
+        {
+            @:<option @(source.IsSelected ? "selected" : "") value="@source.Name">@source.Name</option>
+        }
+    </select>
+</div>
+
+<div class="form-group">
+    <input type="radio" id="sortChoice1"
+           name="sortOrder" value="@SortState.DateOrder"  data-bind="checked: _orderType">
+    <label for="sortChoice1">Сортировать по дате</label>
+
+    <input type="radio" id="sortChoice2"
+           name="sortOrder" value="@SortState.SourceOrder" data-bind="checked: _orderType">
+    <label for="sortChoice2">Сортировать по источнику</label>
+</div>
+
+<button class="btn" data-bind="click: filterButton">Посмотреть</button>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <td>Источник</td>
+            <td>Название новости</td>
+            <td>Описание новости</td>
+            <td>Дата публикации</td>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: _news">
+        <tr>
+            <td data-bind="text: source"></td>
+            <td data-bind="text: title"></td>
+            <td data-bind="html: description"></td>
+            <td data-bind="text: date"></td>
+        </tr>
+    </tbody>
+</table>
+
+<div data-bind="with: _pageViewModel">
+    <div data-bind="foreach: pages">
+        <button class="btn" data-bind="text:pageNumber, click: $root.select, clickBubble: false, css: {'btn-success': pageNumber===$parent.selectedPageNumber(), 'btn-default': pageNumber!=$parent.selectedPageNumber()}"></button>
+    </div>
+</div>
+
+@section Scripts
+    {
+    <script>
+        var startup = {
+            totalPages: @Html.Raw(JsonConvert.SerializeObject(Model.TotalPages))
+        };
+    </script>
+
+    <script src="~/dist/index.bundle.js"></script>
 }
-
-<h2>IndexAjax</h2>
-

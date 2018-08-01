@@ -17149,6 +17149,43 @@ ko.applyBindings(ui);
 
 /***/ }),
 
+/***/ "./src/ts/types.ts":
+/*!*************************!*\
+  !*** ./src/ts/types.ts ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var ko = __webpack_require__(/*! knockout */ "./node_modules/knockout/build/output/knockout-latest.js");
+var Page = /** @class */ (function () {
+    function Page(page) {
+        this.pageNumber = page;
+    }
+    return Page;
+}());
+exports.Page = Page;
+var PageViewModel = /** @class */ (function () {
+    function PageViewModel(totalPages) {
+        var _this = this;
+        this.selectedPageNumber = ko.observable(1);
+        this.select = function (pageSelected) {
+            _this.selectedPageNumber(pageSelected.pageNumber);
+        };
+        this.pages = ko.observableArray();
+        for (var i = 0; i < totalPages; i++) {
+            this.pages.push(new Page(i + 1));
+        }
+    }
+    return PageViewModel;
+}());
+exports.PageViewModel = PageViewModel;
+
+
+/***/ }),
+
 /***/ "./src/ts/ui.ts":
 /*!**********************!*\
   !*** ./src/ts/ui.ts ***!
@@ -17159,18 +17196,44 @@ ko.applyBindings(ui);
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var types_1 = __webpack_require__(/*! ./types */ "./src/ts/types.ts");
 var ko = __webpack_require__(/*! knockout */ "./node_modules/knockout/build/output/knockout-latest.js");
 var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 var Ui = /** @class */ (function () {
     function Ui(startupData) {
+        var _this = this;
         this.startupData = startupData;
-        this._records = ko.observableArray();
-        this.showButton = function () {
+        this._news = ko.observableArray();
+        this._sourceName = ko.observable("Все");
+        this._orderType = ko.observable("DateOrder");
+        this.select = function (page) {
+            _this._pageViewModel().select(page);
+            var data = {
+                page: _this._pageViewModel().selectedPageNumber(),
+                sortOrder: _this._orderType(),
+                sourceName: _this._sourceName()
+            };
+            _this.loadData(data);
+        };
+        this.filterButton = function () {
+            var data = {
+                page: 1,
+                sortOrder: _this._orderType(),
+                sourceName: _this._sourceName()
+            };
+            _this.loadData(data);
+        };
+        this.loadData = function (data) {
             $.ajax({
-                url: "/ajax/",
-                method: 'POST',
-                data: ("asdas"),
-                success: function () {
+                url: "/get-data/",
+                method: 'GET',
+                data: data,
+                success: function (response) {
+                    _this._news.removeAll();
+                    (_a = _this._news).push.apply(_a, response.news);
+                    if (data.page === 1)
+                        _this._pageViewModel(new types_1.PageViewModel(response.totalPages));
+                    var _a;
                 },
                 error: function (error) {
                     var fullError = JSON.stringify(error);
@@ -17178,8 +17241,8 @@ var Ui = /** @class */ (function () {
                 }
             });
         };
-        if (startupData.clients.length > 0) {
-        }
+        this._pageViewModel = ko.observable(new types_1.PageViewModel(startupData.totalPages));
+        this.filterButton();
     }
     return Ui;
 }());

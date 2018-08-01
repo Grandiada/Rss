@@ -1,7 +1,7 @@
 ﻿@using Rss.Web.Models
 @model IndexPostViewModel
 
-<form method="post" asp-action="IndexGet">
+<form method="post" asp-action="Index">
     <div class="form-group">
         <label for="sourceName">Источник ленты</label>
         <select size="1" name="sourceName" id="sourceName">
@@ -17,7 +17,7 @@
         <label for="sortChoice1">Сортировать по дате</label>
 
         <input type="radio" id="sortChoice2"
-               name="sortOrder" value="@SortState.SourceOrder" @(Model.SortViewModel.SortType==SortState.SourceOrder ? "checked=\"checked\"" : "")>
+               name="sortOrder" value="@SortState.SourceOrder" @(Model.SortViewModel.SortType == SortState.SourceOrder ? "checked=\"checked\"" : "")>
         <label for="sortChoice2">Сортировать по источнику</label>
     </div>
     <button class="btn" type="submit">Посмотреть</button>
@@ -47,7 +47,7 @@
 
 @for (var i = 0; i < Model.PageViewModel.TotalPages; i++)
 {
-    <a asp-action="IndexGet"
+    <a asp-action="Index"
        asp-route-page="@(i + 1)"
        asp-route-sourceName="@(Model.SourceViewModel.GetSelected.Name)"
        asp-route-sortorder="@(Model.SortViewModel.SortType)"
